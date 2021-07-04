@@ -4,6 +4,7 @@ import { SiBitcoin } from "react-icons/si";
 import RenderCoin from "../components/RenderCoins";
 
 const API_KEY = `3vxjsomnzbsd5idi6ee5nl`;
+const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=v&desc=true`;
 
 const options = {
   method: "GET",
@@ -19,14 +20,19 @@ const IndexPage = () => {
   const [cryptoArr, setCryptoArr] = useState([]);
   const coinSearch = useRef();
 
-  async function getData(type) {
+  async function getData(type, sortBy = "") {
+    // const response = await fetch(
+    //   `https://api.lunarcrush.com/v2?data=${type}&key=${API_KEY}&sort=${sortBy}`
+    // );
     const response = await fetch(
-      `https://api.lunarcrush.com/v2?data=${type}&key=${API_KEY}`
+      `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=v&desc=true`
     );
     const responseData = await response.json();
+    console.log(responseData);
     const valueOver0 = responseData.data.filter((tok) => {
       return tok.p > 0;
     });
+
     setCryptoArr(valueOver0);
     console.log(valueOver0);
   }
@@ -128,11 +134,40 @@ const IndexPage = () => {
         </Flex>
       </Box>
       <Box id="body" w="70%" m="0 auto">
-        <Flex>
-          <Button borderRight="1px solid black">Name</Button>
-          <Button borderRight="1px solid black">Coin</Button>
-          <Button borderRight="1px solid black">24H Volume</Button>
-          <Button borderRight="1px solid black">Price</Button>
+        <Flex w="90%">
+          {/* <Button borderRight="1px solid black">#</Button> */}
+          <Button borderRight="1px solid black" w="2.5%">
+            #
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Name
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Coin
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Price
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            24H Change
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            24H Volume
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Market Cap
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Volatility
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Tweets
+          </Button>
+          <Button borderRight="1px solid black" w="10.75%">
+            Social Dominance
+          </Button>
+
+          {/* <Button borderRight="1px solid black">Social Media Trends</Button> */}
         </Flex>
         <RenderCoin arr={cryptoArr} />
       </Box>
