@@ -19,33 +19,37 @@ const options = {
 const IndexPage = () => {
   const [cryptoArr, setCryptoArr] = useState([]);
   const coinSearch = useRef();
+  const [img, setImg] = useState("");
 
-  async function getData(type, sortBy = "") {
-    // const response = await fetch(
-    //   `https://api.lunarcrush.com/v2?data=${type}&key=${API_KEY}&sort=${sortBy}`
-    // );
-    const response = await fetch(
-      `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=v&desc=true`
-    );
+  // async function getIcons(symbol) {
+  // const response = await fetch();
+  // `https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png`
+  // `https://images.coinviewer.io/currencies/64x64/1000.png`
+  // `https://images.coinviewer.io/currencies/64x64/${symbol}.png`
+  // `https://cors-anywhere.herokuapp.com/https://icons.bitbot.tools/api/${symbol}/32x32`
+  // console.log(response);
+  // setImg(response.url);
+  // setImg(response.url);
+  // return response.url;
+
+  // return symbol;
+  // }
+  async function getData() {
+    const response = await fetch(API_FOR_DESCENDING_VOLUME_MARKET);
     const responseData = await response.json();
     console.log(responseData);
     const valueOver0 = responseData.data.filter((tok) => {
       return tok.p > 0;
     });
-
     setCryptoArr(valueOver0);
     console.log(valueOver0);
   }
-
-  // function sortArray(arr) {
-  //   return null;
-  // }
 
   return (
     <>
       <Box id="header">
         <Box id="Options" w="70%" m="1% auto" textAlign="right">
-          <Button onClick={() => getData("market")}>Get coins</Button>
+          <Button onClick={getData}>Get coins</Button>
           <Button>Sort in descending order</Button>
           <Button
             bg="transparent"
@@ -139,31 +143,29 @@ const IndexPage = () => {
           <Button borderRight="1px solid black" w="2.5%">
             #
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             Name
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             Coin
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             Price
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             24H Change
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             24H Volume
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             Market Cap
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
-            Volatility
-          </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+
+          <Button borderRight="1px solid black" w="12%">
             Tweets
           </Button>
-          <Button borderRight="1px solid black" w="10.75%">
+          <Button borderRight="1px solid black" w="12%">
             Social Dominance
           </Button>
 
