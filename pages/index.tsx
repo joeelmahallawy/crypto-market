@@ -1,43 +1,40 @@
 import { Box, Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import { SiBitcoin } from "react-icons/si";
+import { IoIosArrowDown } from "react-icons/io";
 import RenderCoin from "../components/RenderCoins";
 
 const API_KEY = `3vxjsomnzbsd5idi6ee5nl`;
-const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=v&desc=true`;
-
-const options = {
-  method: "GET",
-  hostname: "rest.coinapi.io",
-  path: "/v1/exchanges",
-  headers: {
-    "X-CoinAPI-Key": "DF439066-38BA-4046-AAED-7C7F85722F43",
-    Accept: "application/json",
-  },
-};
+const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=mc&desc=true`;
 
 const IndexPage = () => {
   const [cryptoArr, setCryptoArr] = useState([]);
   const coinSearch = useRef();
   const [img, setImg] = useState("");
+  const [AscNames, setAscNames] = useState(null);
+  const [AscPrice, setAscPrice] = useState(null);
+  const [AscPriceChange, setAscPriceChange] = useState(null);
+  const [volumeAsc, setVolumeAsc] = useState(null);
+  const [marketCapAsc, setMarketCapAsc] = useState(null);
 
   // async function getIcons(symbol) {
   // const response = await fetch();
   // `https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png`
   // `https://images.coinviewer.io/currencies/64x64/1000.png`
-  // `https://images.coinviewer.io/currencies/64x64/${symbol}.png`
+  // `https://volumeAscs.coinviewer.io/currencies/64x64/${symbol}.png`
   // `https://cors-anywhere.herokuapp.com/https://icons.bitbot.tools/api/${symbol}/32x32`
   // console.log(response);
   // setImg(response.url);
   // setImg(response.url);
   // return response.url;
-
   // return symbol;
   // }
+
+  // ASYNC FUNCTIONS
   async function getData() {
     const response = await fetch(API_FOR_DESCENDING_VOLUME_MARKET);
     const responseData = await response.json();
-    console.log(responseData);
+
     const valueOver0 = responseData.data.filter((tok) => {
       return tok.p > 0;
     });
@@ -45,12 +42,124 @@ const IndexPage = () => {
     console.log(valueOver0);
   }
 
+  // NAMES SORTING
+  function sortByNameDes() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.n.toLowerCase() > b.n.toLowerCase() ? -1 : 1;
+    });
+
+    setAscNames(false);
+    setCryptoArr(sortedNameArr);
+  }
+  function sortByNameAsc() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.n.toLowerCase() < b.n.toLowerCase() ? -1 : 1;
+    });
+    setAscNames(true);
+    setCryptoArr(sortedNameArr);
+  }
+  function toggleNameSort() {
+    if (AscNames === true) sortByNameDes();
+    if (AscNames === false) sortByNameAsc();
+    if (AscNames === null) sortByNameDes();
+  }
+  // PRICE SORTING
+  function sortByPriceDes() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.p > b.p ? -1 : 1;
+    });
+    setAscPrice(false);
+    setCryptoArr(sortedNameArr);
+  }
+  function sortByPriceAsc() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.p < b.p ? -1 : 1;
+    });
+    setAscPrice(true);
+    setCryptoArr(sortedNameArr);
+  }
+  function togglePriceSort() {
+    if (AscPrice === true) sortByPriceDes();
+    if (AscPrice === false) sortByPriceAsc();
+    if (AscPrice === null) sortByPriceDes();
+  }
+  // PRICE CHANGE SORTING
+  function sortByPriceChangeDes() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.pc > b.pc ? -1 : 1;
+    });
+    setAscPriceChange(false);
+    setCryptoArr(sortedNameArr);
+  }
+  function sortByPriceChangeAsc() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.pc < b.pc ? -1 : 1;
+    });
+    setAscPriceChange(true);
+    setCryptoArr(sortedNameArr);
+  }
+  function togglePriceChangeSort() {
+    if (AscPriceChange === true) sortByPriceChangeDes();
+    if (AscPriceChange === false) sortByPriceChangeAsc();
+    if (AscPriceChange === null) sortByPriceChangeDes();
+  }
+  // VOLUME SORTING
+  function sortVolumeDes() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.v > b.v ? -1 : 1;
+    });
+    setVolumeAsc(false);
+    setCryptoArr(sortedNameArr);
+  }
+  function sortVolumeAsc() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.v < b.v ? -1 : 1;
+    });
+    setVolumeAsc(true);
+    setCryptoArr(sortedNameArr);
+  }
+  function toggleVolumeSort() {
+    if (volumeAsc === true) sortVolumeDes();
+    if (volumeAsc === false) sortVolumeAsc();
+    if (volumeAsc === null) sortVolumeDes();
+  }
+  // MARKET CAP SORTING
+  function sortMarketCapDes() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.mc > b.mc ? -1 : 1;
+    });
+    setMarketCapAsc(false);
+    setCryptoArr(sortedNameArr);
+  }
+  function sortMarketCapAsc() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.mc < b.mc ? -1 : 1;
+    });
+    setMarketCapAsc(true);
+    setCryptoArr(sortedNameArr);
+  }
+  function toggleMarketCapSort() {
+    if (marketCapAsc === true) sortMarketCapDes();
+    if (marketCapAsc === false) sortMarketCapAsc();
+    if (marketCapAsc === null) sortMarketCapAsc();
+  }
+
   return (
     <>
       <Box id="header">
         <Box id="Options" w="70%" m="1% auto" textAlign="right">
           <Button onClick={getData}>Get coins</Button>
-          <Button>Sort in descending order</Button>
+
           <Button
             bg="transparent"
             _hover={{ bg: "transparent", color: "blue" }}
@@ -138,38 +247,57 @@ const IndexPage = () => {
         </Flex>
       </Box>
       <Box id="body" w="70%" m="0 auto">
-        <Flex w="90%">
-          {/* <Button borderRight="1px solid black">#</Button> */}
-          <Button borderRight="1px solid black" w="2.5%">
+        <Flex w="100%" mb="1%">
+          <Box w="2.5%" textAlign="center">
             #
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
+          </Box>
+          <Box
+            w="11.875%"
+            textAlign="left"
+            pl="1%"
+            _hover={{ cursor: "pointer" }}
+            onClick={toggleNameSort}
+          >
             Name
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
+          </Box>
+          <Box w="11.875%" textAlign="left">
             Coin
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
+          </Box>
+          <Box
+            w="11.875%"
+            textAlign="right"
+            _hover={{ cursor: "pointer" }}
+            onClick={togglePriceSort}
+          >
             Price
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
+          </Box>
+          <Box
+            w="11.875%"
+            textAlign="right"
+            _hover={{ cursor: "pointer" }}
+            onClick={togglePriceChangeSort}
+          >
             24H Change
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
+          </Box>
+          <Box
+            w="11.875%"
+            textAlign="right"
+            _hover={{ cursor: "pointer" }}
+            onClick={toggleVolumeSort}
+          >
             24H Volume
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
+          </Box>
+          <Box
+            w="11.875%"
+            textAlign="right"
+            _hover={{ cursor: "pointer" }}
+            onClick={toggleMarketCapSort}
+          >
             Market Cap
-          </Button>
-
-          <Button borderRight="1px solid black" w="12%">
-            Tweets
-          </Button>
-          <Button borderRight="1px solid black" w="12%">
-            Social Dominance
-          </Button>
-
-          {/* <Button borderRight="1px solid black">Social Media Trends</Button> */}
+          </Box>
+          <Box w="11.875%" textAlign="center" _hover={{ cursor: "pointer" }}>
+            Volatility
+          </Box>
         </Flex>
         <RenderCoin arr={cryptoArr} />
       </Box>
