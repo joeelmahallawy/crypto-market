@@ -1,4 +1,19 @@
-import { Box, Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import { SiBitcoin } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
@@ -151,7 +166,7 @@ const IndexPage = () => {
   function toggleMarketCapSort() {
     if (marketCapAsc === true) sortMarketCapDes();
     if (marketCapAsc === false) sortMarketCapAsc();
-    if (marketCapAsc === null) sortMarketCapAsc();
+    if (marketCapAsc === null) sortMarketCapDes();
   }
 
   return (
@@ -159,7 +174,6 @@ const IndexPage = () => {
       <Box id="header">
         <Box id="Options" w="70%" m="1% auto" textAlign="right">
           <Button onClick={getData}>Get coins</Button>
-
           <Button
             bg="transparent"
             _hover={{ bg: "transparent", color: "blue" }}
