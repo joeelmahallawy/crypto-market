@@ -12,14 +12,6 @@ import {
 import MyModal from "./modal";
 
 export default function RenderCoin({ arr }) {
-  const [isopen, setIsopen] = useState(false);
-  function onOpen() {
-    setIsopen(true);
-  }
-  function onClose() {
-    setIsopen(false);
-  }
-
   // FIXME:FIXME:FIXME:FIXME:FIXME:
   return arr.map((coin, i) => {
     function numberWithCommas(x) {

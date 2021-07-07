@@ -1,20 +1,5 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import { Box, Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
 import { SiBitcoin } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
 import RenderCoin from "../components/RenderCoins";
@@ -23,6 +8,10 @@ const API_KEY = `3vxjsomnzbsd5idi6ee5nl`;
 const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=mc&desc=true`;
 
 const IndexPage = () => {
+  // useEffect(() => {
+  // getData();
+  // }, []);
+  // setInterval(() => getData(), 2000);
   const [cryptoArr, setCryptoArr] = useState([]);
   const coinSearch = useRef();
   const [img, setImg] = useState("");
@@ -54,7 +43,7 @@ const IndexPage = () => {
       return tok.p > 0;
     });
     setCryptoArr(valueOver0);
-    console.log(valueOver0);
+    // console.log(valueOver0);
   }
 
   // NAMES SORTING
@@ -168,7 +157,21 @@ const IndexPage = () => {
     if (marketCapAsc === false) sortMarketCapAsc();
     if (marketCapAsc === null) sortMarketCapDes();
   }
-
+  //Reusable blocks
+  function headerButtons(type) {
+    return (
+      <Button
+        _focus={{ boxShadow: "none" }}
+        _active={{ bg: "none" }}
+        ml="1%"
+        alignContent="center"
+        bg="transparent"
+        _hover={{ bg: "transparent", color: "blue" }}
+      >
+        {type}
+      </Button>
+    );
+  }
   return (
     <>
       <Box id="header">
@@ -201,56 +204,12 @@ const IndexPage = () => {
         </Box>
         <Flex id="categories" bg="gray" w="70%" m="1% auto" alignItems="center">
           <SiBitcoin size="5%" color="gold" />
-          <Button
-            _focus={{ boxShadow: "none" }}
-            _active={{ bg: "none" }}
-            ml="1%"
-            alignContent="center"
-            bg="transparent"
-            _hover={{ bg: "transparent", color: "blue" }}
-          >
-            Home
-          </Button>
-          <Button
-            _focus={{ boxShadow: "none" }}
-            _active={{ bg: "none" }}
-            ml="1%"
-            alignContent="center"
-            bg="transparent"
-            _hover={{ bg: "transparent", color: "blue" }}
-          >
-            Exchange
-          </Button>
-          <Button
-            _focus={{ boxShadow: "none" }}
-            _active={{ bg: "none" }}
-            ml="1%"
-            alignContent="center"
-            bg="transparent"
-            _hover={{ bg: "transparent", color: "blue" }}
-          >
-            DeFi
-          </Button>
-          <Button
-            _focus={{ boxShadow: "none" }}
-            _active={{ bg: "none" }}
-            ml="1%"
-            alignContent="center"
-            bg="transparent"
-            _hover={{ bg: "transparent", color: "blue" }}
-          >
-            NFT
-          </Button>
-          <Button
-            _focus={{ boxShadow: "none" }}
-            _active={{ bg: "none" }}
-            ml="1%"
-            alignContent="center"
-            bg="transparent"
-            _hover={{ bg: "transparent", color: "blue" }}
-          >
-            Upcomings
-          </Button>
+          {headerButtons("Home ")}
+          {headerButtons("Exchange ")}
+          {headerButtons("DeFi ")}
+          {headerButtons("NFT ")}
+          {headerButtons("Upcomings ")}
+
           <Input
             ml="5%"
             placeholder="Search Coin"
