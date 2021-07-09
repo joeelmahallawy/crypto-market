@@ -11,9 +11,8 @@ import {
 } from "@chakra-ui/react";
 import MyModal from "./modal";
 
-export default function RenderCoin({ arr }) {
-  // FIXME:FIXME:FIXME:FIXME:FIXME:
-  return arr.map((coin, i) => {
+export default function RenderCoin({ arr, pageNumber = 0 }) {
+  return arr.slice(pageNumber * 50, pageNumber * 50 + 50).map((coin, i) => {
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
@@ -28,8 +27,8 @@ export default function RenderCoin({ arr }) {
         alignItems="center"
         _hover={{ bg: "#F5F5F5" }}
       >
-        <Box w="2.5%" textAlign="right" fontSize="75%">
-          ICON
+        <Box w="2.5%" textAlign="center" fontSize="85%" color="gray">
+          {i + 1}
         </Box>
         <Box
           w="11.875%"

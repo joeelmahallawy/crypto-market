@@ -1,4 +1,12 @@
-import { Box, Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { SiBitcoin } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
@@ -8,10 +16,11 @@ const API_KEY = `3vxjsomnzbsd5idi6ee5nl`;
 const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=mc&desc=true`;
 
 const IndexPage = () => {
-  // useEffect(() => {
-  // getData();
-  // }, []);
-  // setInterval(() => getData(), 2000);
+  const [curPage, setCurPage] = useState(0);
+  const [isFirstPage, setIsFirstPage] = useState(true);
+  const [isLastPage, setIsLastPage] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [pageNum, setPageNum] = useState(0);
   const [cryptoArr, setCryptoArr] = useState([]);
   const coinSearch = useRef();
   const [img, setImg] = useState("");
@@ -20,6 +29,12 @@ const IndexPage = () => {
   const [AscPriceChange, setAscPriceChange] = useState(null);
   const [volumeAsc, setVolumeAsc] = useState(null);
   const [marketCapAsc, setMarketCapAsc] = useState(null);
+  const [sizeOfReturnedArr, setSizeOfReturnedArr] = useState(0);
+
+  // useEffect(() => {
+  // getData();
+  // }, []);
+  // setInterval(() => getData(), 2000);
 
   // async function getIcons(symbol) {
   // const response = await fetch();
@@ -43,7 +58,8 @@ const IndexPage = () => {
       return tok.p > 0;
     });
     setCryptoArr(valueOver0);
-    // console.log(valueOver0);
+    setIsLoaded(true);
+    setSizeOfReturnedArr(valueOver0.length);
   }
 
   // NAMES SORTING
@@ -157,6 +173,7 @@ const IndexPage = () => {
     if (marketCapAsc === false) sortMarketCapAsc();
     if (marketCapAsc === null) sortMarketCapDes();
   }
+
   //Reusable blocks
   function headerButtons(type) {
     return (
@@ -272,7 +289,78 @@ const IndexPage = () => {
             Volatility
           </Box>
         </Flex>
-        <RenderCoin arr={cryptoArr} />
+
+        {isLoaded && (
+          <>
+            <RenderCoin arr={cryptoArr} pageNumber={curPage} />
+
+            <Center mt="2.5%" mb="2.5%" fontSize="125%">
+              {curPage === 0 ? (
+                <>
+                  <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
+                    sizeOfReturnedArr / 50
+                  )}`}</Text>
+                  <Button
+                    borderRadius="50%"
+                    height="50px"
+                    w="50px"
+                    bg="lightgray"
+                    onClick={() => {
+                      setCurPage(curPage + 1);
+                    }}
+                  >
+                    +
+                  </Button>
+                </>
+              ) : curPage === sizeOfReturnedArr / 50 ? (
+                <>
+                  <Button
+                    borderRadius="50%"
+                    height="50px"
+                    w="50px"
+                    bg="lightgray"
+                    onClick={() => {
+                      setCurPage(curPage - 1);
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
+                    sizeOfReturnedArr / 50
+                  )}`}</Text>
+                </>
+              ) : (
+                <>
+                  <Button
+                    borderRadius="50%"
+                    height="50px"
+                    w="50px"
+                    bg="lightgray"
+                    onClick={() => {
+                      setCurPage(curPage - 1);
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
+                    sizeOfReturnedArr / 50
+                  )}`}</Text>
+                  <Button
+                    borderRadius="50%"
+                    height="50px"
+                    w="50px"
+                    bg="lightgray"
+                    onClick={() => {
+                      setCurPage(curPage + 1);
+                    }}
+                  >
+                    +
+                  </Button>
+                </>
+              )}
+            </Center>
+          </>
+        )}
       </Box>
     </>
   );
