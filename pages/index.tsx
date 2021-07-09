@@ -29,6 +29,7 @@ const IndexPage = () => {
   const [AscPriceChange, setAscPriceChange] = useState(null);
   const [volumeAsc, setVolumeAsc] = useState(null);
   const [marketCapAsc, setMarketCapAsc] = useState(null);
+  const [volatilityAsc, setVolatilityAsc] = useState(null);
   const [sizeOfReturnedArr, setSizeOfReturnedArr] = useState(0);
 
   // useEffect(() => {
@@ -60,6 +61,44 @@ const IndexPage = () => {
     setCryptoArr(valueOver0);
     setIsLoaded(true);
     setSizeOfReturnedArr(valueOver0.length);
+  }
+  // Render Helper functions
+  function renderPageNumber() {
+    return (
+      <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
+        sizeOfReturnedArr / 50
+      )}`}</Text>
+    );
+  }
+  function previousPageBtn() {
+    return (
+      <Button
+        borderRadius="50%"
+        height="50px"
+        w="50px"
+        bg="lightgray"
+        onClick={() => {
+          setCurPage(curPage - 1);
+        }}
+      >
+        -
+      </Button>
+    );
+  }
+  function forwardPageBtn() {
+    return (
+      <Button
+        borderRadius="50%"
+        height="50px"
+        w="50px"
+        bg="lightgray"
+        onClick={() => {
+          setCurPage(curPage + 1);
+        }}
+      >
+        +
+      </Button>
+    );
   }
 
   // NAMES SORTING
@@ -173,6 +212,28 @@ const IndexPage = () => {
     if (marketCapAsc === false) sortMarketCapAsc();
     if (marketCapAsc === null) sortMarketCapDes();
   }
+  // VOLATILITY SORTING
+  function sortVolatilityDes() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.vt > b.vt ? -1 : 1;
+    });
+    setVolatilityAsc(false);
+    setCryptoArr(sortedNameArr);
+  }
+  function sortVolatilityAsc() {
+    const clonedArr = [...cryptoArr];
+    const sortedNameArr = clonedArr.sort((a, b) => {
+      return a.vt < b.vt ? -1 : 1;
+    });
+    setVolatilityAsc(true);
+    setCryptoArr(sortedNameArr);
+  }
+  function toggleVolatilitySort() {
+    if (volatilityAsc === true) sortVolatilityDes();
+    if (volatilityAsc === false) sortVolatilityAsc();
+    if (volatilityAsc === null) sortVolatilityDes();
+  }
 
   //Reusable blocks
   function headerButtons(type) {
@@ -285,7 +346,12 @@ const IndexPage = () => {
           >
             Market Cap
           </Box>
-          <Box w="11.875%" textAlign="center" _hover={{ cursor: "pointer" }}>
+          <Box
+            w="11.875%"
+            textAlign="center"
+            _hover={{ cursor: "pointer" }}
+            onClick={toggleVolatilitySort}
+          >
             Volatility
           </Box>
         </Flex>
@@ -297,65 +363,19 @@ const IndexPage = () => {
             <Center mt="2.5%" mb="2.5%" fontSize="125%">
               {curPage === 0 ? (
                 <>
-                  <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
-                    sizeOfReturnedArr / 50
-                  )}`}</Text>
-                  <Button
-                    borderRadius="50%"
-                    height="50px"
-                    w="50px"
-                    bg="lightgray"
-                    onClick={() => {
-                      setCurPage(curPage + 1);
-                    }}
-                  >
-                    +
-                  </Button>
+                  {renderPageNumber()}
+                  {forwardPageBtn()}
                 </>
               ) : curPage === sizeOfReturnedArr / 50 ? (
                 <>
-                  <Button
-                    borderRadius="50%"
-                    height="50px"
-                    w="50px"
-                    bg="lightgray"
-                    onClick={() => {
-                      setCurPage(curPage - 1);
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
-                    sizeOfReturnedArr / 50
-                  )}`}</Text>
+                  {previousPageBtn()}
+                  {renderPageNumber()}
                 </>
               ) : (
                 <>
-                  <Button
-                    borderRadius="50%"
-                    height="50px"
-                    w="50px"
-                    bg="lightgray"
-                    onClick={() => {
-                      setCurPage(curPage - 1);
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Text p="0 1%">{`Page ${curPage + 1} of ${Math.round(
-                    sizeOfReturnedArr / 50
-                  )}`}</Text>
-                  <Button
-                    borderRadius="50%"
-                    height="50px"
-                    w="50px"
-                    bg="lightgray"
-                    onClick={() => {
-                      setCurPage(curPage + 1);
-                    }}
-                  >
-                    +
-                  </Button>
+                  {previousPageBtn()}
+                  {renderPageNumber()}
+                  {forwardPageBtn()}
                 </>
               )}
             </Center>

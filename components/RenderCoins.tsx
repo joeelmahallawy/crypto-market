@@ -28,7 +28,7 @@ export default function RenderCoin({ arr, pageNumber = 0 }) {
         _hover={{ bg: "#F5F5F5" }}
       >
         <Box w="2.5%" textAlign="center" fontSize="85%" color="gray">
-          {i + 1}
+          {i + 1 + pageNumber * 50}
         </Box>
         <Box
           w="11.875%"
