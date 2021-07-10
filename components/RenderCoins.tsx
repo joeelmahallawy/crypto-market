@@ -1,4 +1,11 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   Modal,
@@ -11,7 +18,9 @@ import {
 } from "@chakra-ui/react";
 import MyModal from "./modal";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+
 export default function RenderCoin({ arr, pageNumber = 0 }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return arr.slice(pageNumber * 50, pageNumber * 50 + 50).map((coin, i) => {
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -37,6 +46,7 @@ export default function RenderCoin({ arr, pageNumber = 0 }) {
           fontWeight="600"
           pl="1%"
           cursor="pointer"
+          onClick={onOpen}
         >
           {/* FIXME:FIXME:FIXME:FIXME:IMPLEMENT NEW PAGE FOR CLICKS */}
           {coin.n}
@@ -133,6 +143,7 @@ export default function RenderCoin({ arr, pageNumber = 0 }) {
         </Box>
         <Box w="11.875%" textAlign="center" fontSize="85%">
           {/* <Button w="100%">SOCIAL MEDIA STATUS</Button> */}
+
           <MyModal Curcoin={coin} />
         </Box>
       </Flex>

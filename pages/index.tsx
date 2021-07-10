@@ -112,6 +112,22 @@ const IndexPage = () => {
       </Button>
     );
   }
+  // SEARCH SORTING
+  function searchResults(e) {
+    const searchArr = [];
+    searchArr.push(e.target.value);
+    // FIXME:FIXME: FIXME: FIXME: FIXME: FIXME: FIXME: FIXME:  SEARCH RESULTS messed up on erasing inputsFIXME: FIXME: FIXME: FIXME: FIXME: FIXME: FIXME: FIXME: FIXME:
+    console.log(searchArr.join(""));
+    const newArr = cryptoArr.filter((coin) => {
+      // coin.n[0].toLowerCase();
+      return coin.n.startsWith(searchArr.join("").toUpperCase());
+    });
+
+    // newArr.length > 0;
+    setCryptoArr(newArr);
+
+    console.log(newArr);
+  }
 
   // NAMES SORTING
   function sortByNameDes() {
@@ -306,6 +322,8 @@ const IndexPage = () => {
             type="text"
             ref={coinSearch}
             size="lg"
+            _focus={{ outline: "none" }}
+            onChange={searchResults}
           />
         </Flex>
       </Box>
