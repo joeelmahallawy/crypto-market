@@ -10,7 +10,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import MyModal from "./modal";
-
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 export default function RenderCoin({ arr, pageNumber = 0 }) {
   return arr.slice(pageNumber * 50, pageNumber * 50 + 50).map((coin, i) => {
     function numberWithCommas(x) {
@@ -97,11 +97,23 @@ export default function RenderCoin({ arr, pageNumber = 0 }) {
         <Box
           w="11.875%"
           textAlign="right"
+          justifyContent="right"
+          justifyItems="right"
           fontSize="90%"
           fontWeight="500"
           color={coin.pc > 0 ? "#57bd0f" : coin.pc < 0 ? "red" : "black"}
         >
-          {`${coin.pc.toFixed(2)}%`}
+          {coin.pc > 0 ? (
+            <>
+              {/* <IoMdArrowDropup></IoMdArrowDropup> */}
+              {`${coin.pc.toFixed(2)}%`}
+            </>
+          ) : (
+            <>
+              {/* <IoMdArrowDropdown /> */}
+              {`${coin.pc.toFixed(2)}%`}
+            </>
+          )}
         </Box>
         <Box w="11.875%" textAlign="right" fontSize="85%">
           <Text cursor="pointer">

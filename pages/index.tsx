@@ -80,6 +80,12 @@ const IndexPage = () => {
         onClick={() => {
           setCurPage(curPage - 1);
         }}
+        fontSize="170%"
+        justifyContent="center"
+        alignItems="center"
+        _active={{ bg: "darkgray" }}
+        _focus={{ outline: "none" }}
+        pb=".25%"
       >
         -
       </Button>
@@ -95,6 +101,12 @@ const IndexPage = () => {
         onClick={() => {
           setCurPage(curPage + 1);
         }}
+        justifyContent="center"
+        alignContent="center"
+        fontSize="120%"
+        _active={{ bg: "darkgray" }}
+        _focus={{ outline: "none" }}
+        pb=".25%"
       >
         +
       </Button>
@@ -366,13 +378,17 @@ const IndexPage = () => {
                   {renderPageNumber()}
                   {forwardPageBtn()}
                 </>
-              ) : curPage === sizeOfReturnedArr / 50 ? (
+              ) : curPage === Math.floor(sizeOfReturnedArr / 50) ? (
                 <>
+                  {console.log(Math.ceil(sizeOfReturnedArr / 50))}
                   {previousPageBtn()}
                   {renderPageNumber()}
                 </>
               ) : (
                 <>
+                  {() => {
+                    debugger;
+                  }}
                   {previousPageBtn()}
                   {renderPageNumber()}
                   {forwardPageBtn()}
