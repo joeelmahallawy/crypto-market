@@ -20,6 +20,12 @@ import {
   Center,
 } from "@chakra-ui/react";
 import React from "react";
+import dynamic from "next/dynamic";
+
+const AdvancedChart = dynamic(
+  () => import("react-tradingview-embed/dist/components/AdvancedChart"),
+  { ssr: false }
+);
 
 export default function BasicUsage({ Curcoin }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,7 +40,7 @@ export default function BasicUsage({ Curcoin }) {
         SOCIAL MEDIA STATUS
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="5xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
         <ModalOverlay />
         <ModalContent>
           {/* <ModalHeader>{Curcoin.n}</ModalHeader> */}
@@ -74,6 +80,23 @@ export default function BasicUsage({ Curcoin }) {
                 </Heading>
               </Flex>
             </Center>
+            <div>
+              <AdvancedChart
+                widgetProps={{
+                  width: "100%",
+                  height: 610,
+                  symbol: `${Curcoin.s}USD`,
+                  interval: "D",
+                  timezone: "Etc/UTC",
+                  theme: "dark",
+                  style: "1",
+                  locale: "en",
+                  toolbar_bg: "#f1f3f6",
+                  enable_publishing: false,
+                  allow_symbol_change: false,
+                }}
+              />
+            </div>
             <SimpleGrid columns={1} spacing={2.5}>
               <Flex justifyContent="space-between" height="80px">
                 <Text fontSize="200%">TWEETS IN PAST 24 HOURS:</Text>
