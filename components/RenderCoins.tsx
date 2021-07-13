@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Table,
@@ -25,15 +26,33 @@ import {
 } from "@chakra-ui/react";
 import MyModal from "./modal";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import currency from "currency.js";
+import categoryStyling from "../switches/categoryDecor";
+// const {
+//   getTableProps,
+//   getTableBodyProps,
+//   headerGroups,
+//   prepareRow,
+//   page, // Instead of using 'rows', we'll use page,
+//   // which has only the rows for the active page
 
-function categoryStyling(exp) {
-  switch (exp) {
-    case "Name":
-      <Td>{cell.column.Header}</Td>;
-  }
-}
-
+//   // The rest of these things are super handy, too ;)
+//   canPreviousPage,
+//   canNextPage,
+//   pageOptions,
+//   pageCount,
+//   gotoPage,
+//   nextPage,
+//   previousPage,
+//   setPageSize,
+//   state: { pageIndex, pageSize },
+// } = useTable(
+//   {
+//     columns,
+//     data,
+//     initialState: { pageIndex: 2 },
+//   },
+//   usePagination
+// );
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -85,6 +104,9 @@ const getPrice = ({ value: p }) => {
 };
 
 const columns = [
+  {
+    Header: "#",
+  },
   {
     Header: "Name",
     accessor: "n",
@@ -140,53 +162,75 @@ export default function RenderCoin({
       <Table
         {...getTableProps()}
         style={{ tableLayout: "fixed" }}
+
         // variant="striped"
       >
         <Thead>
           {headerGroups.map((headerGroup) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                // Add the sorting props to control sorting. For this example
-                // we can add them into the header props
-                // @ts-expect-error
-                <Th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render("Header")}
-                  {/* Add a sort direction indicator */}
-                  <span>
-                    {/* @ts-expect-error */}
-                    {column.isSorted
-                      ? // @ts-expect-error
-                        column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-                </Th>
-              ))}
+            <Tr height="20" {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(
+                (column, i) => (
+                  // console.log(column);
+                  // column.totalWidth = 20;
+
+                  // Add the sorting props to control sorting. For this example
+                  // we can add them into the header props
+
+                  <Th
+                    // {...column.getHeaderProps(column.getSortByToggleProps())}
+                    {...column.getHeaderProps()}
+                    width={
+                      column.Header === `#`
+                        ? "1.25%"
+                        : column.Header === "Coin"
+                        ? "7.5%"
+                        : "60px"
+                    }
+                    textAlign={
+                      column.Header != `#` &&
+                      column.Header != `Coin` &&
+                      column.Header != `Name`
+                        ? "right"
+                        : "left"
+                    }
+                    fontSize="100%"
+                    fontWeight="bold"
+                    fontFamily="sans-serif"
+                  >
+                    {/* FIXME:FIXME:FIXME:IMPLEMENT SORTING HEREFIXME:FIXME:FIXME: */}
+                    {column.render("Header")}
+                    {/* Add a sort direction indicator */}
+                    <span>
+                      {/* @ts-expect-error */}
+                      {column.isSorted
+                        ? // @ts-expect-error
+                          column.isSortedDesc
+                          ? `${(<IoMdArrowDropdown />)}`
+                          : `${(<IoMdArrowDropup />)}`
+                        : ""}
+                    </span>
+                  </Th>
+                ),
+                console.log(columns)
+              )}
             </Tr>
           ))}
         </Thead>
-        {/* FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:ADD IN SWITCH STATEMENT FOR EACH CASE OF CATEGORY HEADER FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:*/}
+
         <Tbody {...getTableBodyProps()}>
           {firstPageRows.map((row, i) => {
             prepareRow(row);
-            console.log(`HERES THE ROW:${rows.values}`);
-            return (
-              <Tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  // console.log(cell.getCellProps());
 
-                  return (
-                    <Td {...cell.getCellProps()}>
-                      {cell.column.Header === "Social Media Status"
-                        ? // <MyModal Curcoin={arr.} />
-                          null
-                        : // <Box>hi</Box>
-                          cell.render("Cell")}
-                    </Td>
-                  );
+            return (
+              <Tr
+                height="20"
+                {...row.getRowProps()}
+                key={i}
+                _hover={{ bg: "#ECECEC" }}
+              >
+                {row.cells.map((cell, i) => {
+                  return categoryStyling(cell, i);
                 })}
-                {/* FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: */}
               </Tr>
             );
           })}
@@ -196,6 +240,12 @@ export default function RenderCoin({
       <div style={{ marginBottom: "2.5%", marginTop: "2.5%" }}>
         Showing the first 50 results of {rows.length} rows
       </div>
+      {/* <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        {"<"}
+      </Button>{" "}
+      <Button onClick={() => nextPage()} disabled={!canNextPage}>
+        {">"}
+      </Button> */}
     </>
   );
 
@@ -242,3 +292,10 @@ export default function RenderCoin({
   //   <MyModal Curcoin={coin} />
   // </Box>
 }
+// function nextPage(): void {
+//   throw new Error("Function not implemented.");
+// }
+
+// function previousPage(): void {
+//   throw new Error("Function not implemented.");
+// }

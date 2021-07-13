@@ -86,6 +86,9 @@ const IndexPage = () => {
 
 export default IndexPage;
 
+function previousPage(): void {
+  throw new Error("Function not implemented.");
+}
 /*
 import WebSocket from "ws";
 
