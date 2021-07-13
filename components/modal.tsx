@@ -28,6 +28,9 @@ const AdvancedChart = dynamic(
 );
 
 export default function BasicUsage({ Curcoin }) {
+  // console.log(Curcoin.row.original);
+  Curcoin = Curcoin.row.original;
+  console.log(Curcoin);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>

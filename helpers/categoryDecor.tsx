@@ -1,9 +1,17 @@
 import { Td, Button, Text } from "@chakra-ui/react";
 import React from "react";
-
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+import numberWithCommas from "./numbersWithCommas";
+import getPrice from "./pricePrecision";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
+import MyModal from "../components/modal";
 
 export default function categoryStyling(exp, key) {
   switch (exp.column.Header) {
@@ -31,7 +39,7 @@ export default function categoryStyling(exp, key) {
       return (
         <Td key={key} width="20px">
           <Text textAlign="right">
-            {`$${numberWithCommas(exp.value.toFixed(2))}`}
+            {`${numberWithCommas(getPrice(exp.value))}`}
           </Text>
         </Td>
       );
@@ -67,8 +75,12 @@ export default function categoryStyling(exp, key) {
         </Td>
       );
     case "Social Media Status":
-      return <Button key={key}>TEST</Button>;
-    // return <MyModal Curcoin={exp} />;
+      console.log(exp);
+      return (
+        <Td>
+          <MyModal Curcoin={exp} />
+        </Td>
+      );
     default:
       return null;
   }
