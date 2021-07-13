@@ -28,9 +28,7 @@ const AdvancedChart = dynamic(
 );
 
 export default function BasicUsage({ Curcoin }) {
-  // console.log(Curcoin.row.original);
   Curcoin = Curcoin.row.original;
-  console.log(Curcoin);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -161,8 +159,8 @@ export default function BasicUsage({ Curcoin }) {
 
           <ModalFooter>
             <Button
-              variantColor="blue"
               mr={3}
+              variant="solid"
               onClick={onClose}
               w="20%"
               _hover={{ bg: "gray" }}

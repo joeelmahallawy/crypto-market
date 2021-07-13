@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import { SiBitcoin } from "react-icons/si";
+import { SiBitcoin, SiAbbrobotstudio } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
 import RenderCoin from "../components/RenderCoins";
 import { useAsyncFn } from "react-use";
@@ -18,11 +18,12 @@ const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=mar
 
 const IndexPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [state, doFetch] = useAsyncFn(async () => {
     const response = await fetch(API_FOR_DESCENDING_VOLUME_MARKET);
     const responseData = await response.json();
-
+    setIsLoaded(true);
     const valueOver0 = responseData.data.filter((tok) => {
       return tok.p > 0;
     });
@@ -74,11 +75,13 @@ const IndexPage = () => {
         </Flex>
       </Box>
       <Box id="body" w="70%" m="0 auto">
-        {!state.loading && state.value?.length !== 0 && (
+        {/* {!state.loading && state.value?.length !== 0 && ( */}
+        {isLoaded && (
           <>
             <RenderCoin arr={state.value} searchQuery={searchQuery} />
           </>
         )}
+        {/* )} */}
       </Box>
     </>
   );

@@ -13,14 +13,13 @@ import {
 } from "@chakra-ui/react";
 import MyModal from "../components/modal";
 
-export default function categoryStyling(exp, key) {
+export default function categoryStyling(exp, key, page) {
   switch (exp.column.Header) {
     case "#":
-      // exp.column;
-      // console.log(exp.column);
+      console.log(exp);
       return (
-        <Td width="100%">
-          <Text>{+exp.row.id + 1}</Text>
+        <Td width="100%" key={key}>
+          <Text>{+exp.row.id}</Text>
         </Td>
       );
     case "Name":
@@ -39,7 +38,11 @@ export default function categoryStyling(exp, key) {
       return (
         <Td key={key} width="20px">
           <Text textAlign="right">
-            {`${numberWithCommas(getPrice(exp.value))}`}
+            {`${
+              exp.value > 1
+                ? numberWithCommas(getPrice(exp.value))
+                : getPrice(exp.value)
+            }`}
           </Text>
         </Td>
       );
@@ -57,27 +60,30 @@ export default function categoryStyling(exp, key) {
     case "24H Volume":
       return (
         <Td key={key}>
-          <Text textAlign="right">{`$${numberWithCommas(
-            exp.value.toFixed(0)
-          )}`}</Text>
+          <Text textAlign="right">{`${
+            exp.value ? "$" + numberWithCommas(exp.value.toFixed(0)) : "?"
+          }`}</Text>
         </Td>
       );
     case "Market Cap":
       return (
         <Td key={key}>
-          <Text textAlign="right">{`$${numberWithCommas(exp.value)}`}</Text>
+          <Text textAlign="right">{`${
+            exp.value ? `$` + numberWithCommas(exp.value) : "?"
+          }`}</Text>
         </Td>
       );
     case "Volatility":
       return (
         <Td key={key}>
-          <Text textAlign="right">{exp.value.toFixed(7)}</Text>
+          <Text textAlign="right">
+            {exp.value < 0.0000001 ? "<0.00000001" : exp.value.toFixed(7)}
+          </Text>
         </Td>
       );
     case "Social Media Status":
-      console.log(exp);
       return (
-        <Td>
+        <Td key={key}>
           <MyModal Curcoin={exp} />
         </Td>
       );

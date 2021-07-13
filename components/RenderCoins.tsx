@@ -4,6 +4,12 @@ import {
   Center,
   Flex,
   Heading,
+  Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Table,
   Tbody,
   Td,
@@ -13,19 +19,14 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, usePagination } from "react-table";
 import React, { useState } from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import MyModal from "./modal";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+  IoMdArrowRoundUp,
+  IoIosArrowUp,
+  IoMdArrowDropup,
+} from "react-icons/io";
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import categoryStyling from "../helpers/categoryDecor";
 
 const columns = [
@@ -65,22 +66,35 @@ const columns = [
 
 export default function RenderCoin({
   arr = [],
-  pageNumber = 0,
+  pageNumber = 1,
   searchQuery = "",
 }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [pageNum, setPageNum] = useState(pageNumber);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<{}>(
       {
         columns,
         data: arr,
       },
-      useSortBy
+      useSortBy,
+      usePagination
     );
+  function iconsForSorts(col) {
+    return col.isSorted ? (
+      col.isSortedDesc ? (
+        <TiArrowSortedUp color="lightgreen" />
+      ) : (
+        <TiArrowSortedDown color="red" />
+      )
+    ) : null;
+  }
 
-  const firstPageRows = rows.slice(0, 50);
-
+  const firstPageRows = rows.slice(pageNum * 50 - 50, pageNum * 50);
+  // const testArr = [1, 2, 3, 4, 5];
+  // console.log(testArr.splice(0, 3));
+  // console.log(testArr);
+  // const [testt] = firstPageRows;
+  // console.log(firstPageRows);
   return (
     <>
       <Table
@@ -96,8 +110,15 @@ export default function RenderCoin({
                 column.sortType = "basic";
                 return (
                   <Th
-                    // @ts-expect-error
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    key={i}
+                    {...(pageNum === 1
+                      ? {
+                          ...column.getHeaderProps(
+                            // @ts-expect-error
+                            column.getSortByToggleProps()
+                          ),
+                        }
+                      : { ...column.getHeaderProps })}
                     width={
                       column.Header === `#`
                         ? "1.5%"
@@ -106,7 +127,7 @@ export default function RenderCoin({
                         : column.Header === "Name"
                         ? "3%"
                         : column.Header === "Social Media Status"
-                        ? "4%"
+                        ? "3.9%"
                         : "60px"
                     }
                     textAlign={
@@ -122,15 +143,11 @@ export default function RenderCoin({
                   >
                     {column.render("Header")}
 
-                    <span>
-                      {/* @ts-expect-error */}
-                      {column.isSorted
-                        ? // @ts-expect-error
-                          column.isSortedDesc
-                          ? `${(<IoMdArrowDropdown />)}`
-                          : `${(<IoMdArrowDropup />)}`
-                        : ""}
-                    </span>
+                    {/* <span> */}
+
+                    {iconsForSorts(column)}
+
+                    {/* </span> */}
                   </Th>
                 );
               })}
@@ -147,10 +164,10 @@ export default function RenderCoin({
                 height="20"
                 {...row.getRowProps()}
                 key={i}
-                _hover={{ bg: "#ECECEC" }}
+                _hover={{ bg: "#F3F3F3" }}
               >
                 {row.cells.map((cell, i) => {
-                  return categoryStyling(cell, i);
+                  return categoryStyling(cell, i, pageNum);
                 })}
               </Tr>
             );
@@ -158,9 +175,58 @@ export default function RenderCoin({
         </Tbody>
       </Table>
       <br />
-      <div style={{ marginBottom: "2.5%", marginTop: "2.5%" }}>
-        Showing the first 50 results of {rows.length} rows
-      </div>
+      <Center style={{ marginBottom: "2.5%", marginTop: "2.5%" }}>
+        {/* Showing the first 50 results of {rows.length} rows */}
+        <Button
+          borderRadius="50%"
+          w="60px"
+          h="60px"
+          ml="45%"
+          fontSize="200%"
+          onClick={() => setPageNum(pageNum - 1)}
+          disabled={pageNum === 1}
+        >
+          {"-"}
+        </Button>{" "}
+        <Text m="0 1%" fontSize="125%">
+          {`Page ${+pageNum} of ${Math.floor(rows.length / 50)}`}
+        </Text>
+        <Button
+          borderRadius="50%"
+          w="60px"
+          h="60px"
+          fontSize="200%"
+          onClick={() => setPageNum(pageNum + 1)}
+          disabled={pageNum >= rows.length / 50}
+        >
+          {"+"}
+        </Button>{" "}
+        <Heading fontSize="100%" ml="20%">
+          {" "}
+          Go to page:
+        </Heading>
+        <NumberInput
+          w="15%"
+          ml="1%"
+          defaultValue={1}
+          min={1}
+          max={Math.ceil(rows.length)}
+          placeholder="Enter page number"
+          onChange={(e) => {
+            if (+e === 1) setPageNum(1);
+            if (!+e) setPageNum(1);
+            if (+e > 1) setPageNum(+e);
+            if (+e >= Math.floor(rows.length / 50))
+              setPageNum(Math.floor(rows.length / 50));
+          }}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+      </Center>
     </>
   );
 }
