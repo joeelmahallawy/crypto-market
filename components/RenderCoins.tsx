@@ -19,7 +19,7 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useTable, useSortBy, usePagination } from "react-table";
+import { useTable, useSortBy, usePagination, useFilters } from "react-table";
 import React, { useState } from "react";
 import {
   IoMdArrowRoundUp,
@@ -70,6 +70,7 @@ export default function RenderCoin({
   searchQuery = "",
 }) {
   const [pageNum, setPageNum] = useState(pageNumber);
+  const [searchResultsArr, setSearchResultsArr] = useState(arr);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<{}>(
       {
@@ -89,12 +90,19 @@ export default function RenderCoin({
     ) : null;
   }
 
-  const firstPageRows = rows.slice(pageNum * 50 - 50, pageNum * 50);
-  // const testArr = [1, 2, 3, 4, 5];
-  // console.log(testArr.splice(0, 3));
-  // console.log(testArr);
-  // const [testt] = firstPageRows;
-  // console.log(firstPageRows);
+  function renderSearch(arr) {
+    const copyArr = [...arr];
+    const filteredArr = copyArr.filter((coin) => {
+      return coin.values.n.toLowerCase().startsWith(`${searchQuery}`);
+    });
+    console.log(filteredArr);
+    return filteredArr;
+  }
+
+  let firstPageRows = searchQuery
+    ? renderSearch(rows).slice(pageNum * 50 - 50, pageNum * 50)
+    : rows.slice(pageNum * 50 - 50, pageNum * 50);
+
   return (
     <>
       <Table
@@ -143,11 +151,7 @@ export default function RenderCoin({
                   >
                     {column.render("Header")}
 
-                    {/* <span> */}
-
                     {iconsForSorts(column)}
-
-                    {/* </span> */}
                   </Th>
                 );
               })}

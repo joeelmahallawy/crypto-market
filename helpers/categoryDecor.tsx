@@ -16,10 +16,9 @@ import MyModal from "../components/modal";
 export default function categoryStyling(exp, key, page) {
   switch (exp.column.Header) {
     case "#":
-      console.log(exp);
       return (
         <Td width="100%" key={key}>
-          <Text>{+exp.row.id}</Text>
+          <Text>{+exp.row.id + 1}</Text>
         </Td>
       );
     case "Name":
