@@ -18,6 +18,13 @@ import {
   SimpleGrid,
   Flex,
   Center,
+  Table,
+  Tbody,
+  Td,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import React from "react";
 import dynamic from "next/dynamic";
@@ -28,6 +35,23 @@ const AdvancedChart = dynamic(
 );
 
 export default function BasicUsage({ Curcoin }) {
+  function fillTable(coinData, category) {
+    if (category == "SOCIAL DOMINANCE:")
+      return (
+        <Tr>
+          <Td>{category}</Td>
+          <Td isNumeric>{`${
+            coinData < 0.01 ? "<0.00001" : coinData.toFixed(2)
+          }`}</Td>
+        </Tr>
+      );
+    return (
+      <Tr>
+        <Td>{category}</Td>
+        <Td isNumeric>{coinData}</Td>
+      </Tr>
+    );
+  }
   Curcoin = Curcoin.row.original;
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -51,17 +75,15 @@ export default function BasicUsage({ Curcoin }) {
             _hover={{ bg: "#8D8D8D" }}
           />
           <ModalBody>
-            <Center m="0 auto" mt="5%" mb="5% ">
+            <Flex mt="3%" ml="20%" justifyContent="space-evenly" w="100%">
               <Box>
                 <Heading textAlign="center" fontSize="300%" mr="-75%">
                   {Curcoin.n}
                 </Heading>
               </Box>
-              <Flex flexDir="column" pb="2.5%">
+              <Center flexDir="column" pb="2.5%" pl="5%">
                 <Heading
                   fontSize="120%"
-                  ml="100%"
-                  w="100%"
                   pb="5%"
                   color="gray"
                   fontWeight="400"
@@ -70,17 +92,11 @@ export default function BasicUsage({ Curcoin }) {
                   {`${Curcoin.n} Price`}
                   {` (${Curcoin.s})`}
                 </Heading>
-                <Heading
-                  textAlign="center"
-                  fontSize="120%"
-                  ml="150%"
-                  w="50%"
-                  pb="5%"
-                >
+                <Heading textAlign="center" fontSize="120%" right="0px" pb="5%">
                   {`$${Curcoin.p.toFixed(2)}`}
                 </Heading>
-              </Flex>
-            </Center>
+              </Center>
+            </Flex>
             <div>
               <AdvancedChart
                 widgetProps={{
@@ -98,39 +114,18 @@ export default function BasicUsage({ Curcoin }) {
                 }}
               />
             </div>
+            {/* FIXME:FIXME:FIXME:FIXME:FIXME: */}
+            <Table variant="simple">
+              {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
+
+              {fillTable(Curcoin.t, "TWEETS IN PAST 24 HOURS:")}
+              {fillTable(Curcoin.r, "REDDIT ACTIVITY IN PAST 24 HOURS:")}
+              {fillTable(Curcoin.sd, "SOCIAL DOMINANCE:")}
+              {fillTable(Curcoin.bl, "BULLISH POSTS:")}
+              {fillTable(Curcoin.br, "BEARISH POSTS:")}
+            </Table>
+            {/* FIXME:FIXME:FIXME:FIXME: */}
             <SimpleGrid columns={1} spacing={2.5}>
-              <Flex justifyContent="space-between" height="80px">
-                <Text fontSize="200%">TWEETS IN PAST 24 HOURS:</Text>
-                <Text position="absolute" right="5%" fontSize="200%">
-                  {Curcoin.t}
-                </Text>
-              </Flex>
-              <Flex height="80px" justifyContent="space-between">
-                <Text fontSize="200%">REDDIT ACTIVITY IN PAST 24 HOURS:</Text>
-                <Text position="absolute" right="5%" fontSize="200%">
-                  {Curcoin.r}
-                </Text>
-              </Flex>
-
-              <Flex justifyContent="space-between" height="80px">
-                <Text fontSize="200%">SOCIAL DOMINANCE:</Text>
-                <Text position="absolute" right="5%" fontSize="200%">
-                  {Curcoin.sd < 0.01 ? `<0.01` : `${Curcoin.sd.toFixed(2)}%`}
-                </Text>
-              </Flex>
-              <Flex justifyContent="space-between" height="80px">
-                <Text fontSize="200%">BULLISH POSTS:</Text>
-                <Text position="absolute" right="5%" fontSize="200%">
-                  {Curcoin.bl}
-                </Text>
-              </Flex>
-              <Flex justifyContent="space-between" height="80px">
-                <Text fontSize="200%">BEARISH POSTS:</Text>
-                <Text position="absolute" right="5%" fontSize="200%">
-                  {Curcoin.br}
-                </Text>
-              </Flex>
-
               <Flex justifyContent="space-between" height="80px">
                 <Text fontSize="200%">BEARISH - BULLISH SPECTRUM</Text>
 

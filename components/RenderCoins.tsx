@@ -21,13 +21,10 @@ import {
 } from "@chakra-ui/react";
 import { useTable, useSortBy, usePagination, useFilters } from "react-table";
 import React, { useState } from "react";
-import {
-  IoMdArrowRoundUp,
-  IoIosArrowUp,
-  IoMdArrowDropup,
-} from "react-icons/io";
+
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import categoryStyling from "../helpers/categoryDecor";
+import renderSearch from "../helpers/renderSearch";
 
 const columns = [
   {
@@ -90,17 +87,8 @@ export default function RenderCoin({
     ) : null;
   }
 
-  function renderSearch(arr) {
-    const copyArr = [...arr];
-    const filteredArr = copyArr.filter((coin) => {
-      return coin.values.n.toLowerCase().startsWith(`${searchQuery}`);
-    });
-    console.log(filteredArr);
-    return filteredArr;
-  }
-
   let firstPageRows = searchQuery
-    ? renderSearch(rows).slice(pageNum * 50 - 50, pageNum * 50)
+    ? renderSearch(rows, searchQuery).slice(pageNum * 50 - 50, pageNum * 50)
     : rows.slice(pageNum * 50 - 50, pageNum * 50);
 
   return (
@@ -193,7 +181,11 @@ export default function RenderCoin({
           {"-"}
         </Button>{" "}
         <Text m="0 1%" fontSize="125%">
-          {`Page ${+pageNum} of ${Math.floor(rows.length / 50)}`}
+          {`Page ${+pageNum} of ${
+            searchQuery
+              ? Math.ceil(renderSearch(rows, searchQuery).length / 50)
+              : Math.floor(rows.length / 50)
+          }`}
         </Text>
         <Button
           borderRadius="50%"
@@ -201,7 +193,11 @@ export default function RenderCoin({
           h="60px"
           fontSize="200%"
           onClick={() => setPageNum(pageNum + 1)}
-          disabled={pageNum >= rows.length / 50}
+          disabled={
+            pageNum >= rows.length / 50 ||
+            (searchQuery &&
+              pageNum == Math.ceil(renderSearch(rows, searchQuery).length / 50))
+          }
         >
           {"+"}
         </Button>{" "}
@@ -221,7 +217,14 @@ export default function RenderCoin({
             if (!+e) setPageNum(1);
             if (+e > 1) setPageNum(+e);
             if (+e >= Math.floor(rows.length / 50))
-              setPageNum(Math.floor(rows.length / 50));
+              setPageNum(Math.ceil(rows.length / 50));
+            if (
+              searchQuery &&
+              +e >= Math.floor(renderSearch(rows, searchQuery).length / 50)
+            )
+              setPageNum(
+                Math.ceil(renderSearch(rows, searchQuery).length / 50)
+              );
           }}
         >
           <NumberInputField />
