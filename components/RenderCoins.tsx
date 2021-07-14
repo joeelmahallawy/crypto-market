@@ -180,7 +180,7 @@ export default function RenderCoin({
         >
           {"-"}
         </Button>{" "}
-        <Text m="0 1%" fontSize="125%" minWidth="115px">
+        <Text m="0 1%" fontSize="125%" minWidth="130px">
           {`Page ${+pageNum} of ${
             searchQuery
               ? Math.ceil(renderSearch(rows, searchQuery).length / 50)
