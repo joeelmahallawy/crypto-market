@@ -74,7 +74,7 @@ const IndexPage = () => {
             <Flex _hover={{ cursor: "pointer" }}>
               𝙆
               <Box pt="4%" pl="1%">
-                <SiBitcoin color="gold" size="35px" />
+                <SiBitcoin color="red" size="35px" />
               </Box>
               𝙞𝙣𝙢𝙖𝙧𝙠𝙚𝙩𝙆𝙖𝙥
             </Flex>
