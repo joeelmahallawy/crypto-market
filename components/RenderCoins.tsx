@@ -69,7 +69,7 @@ export default function RenderCoin({
   searchQuery = "",
   state = false,
 }) {
-  const hoverOnCoin = useColorModeValue("#F3F3F3", "rgb(6,24,64,0.75)");
+  const hoverOnCoin = useColorModeValue("#edf2f7", "#2d3748");
   const [pageNum, setPageNum] = useState(pageNumber);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<{}>(
@@ -212,7 +212,6 @@ export default function RenderCoin({
         <NumberInput
           w="15%"
           ml="1%"
-          defaultValue={1}
           min={1}
           max={Math.ceil(rows.length)}
           placeholder="Enter page number"
