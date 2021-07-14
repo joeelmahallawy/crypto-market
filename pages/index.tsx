@@ -42,7 +42,7 @@ const IndexPage = () => {
     "none",
     "rgb(173,173,173,0.25)"
   );
-  const trendingButton = useColorModeValue("rgb(173,173,173,0.45)", "");
+  const trendingButton = useColorModeValue("rgb(173,173,173,0.45)", "gray.700");
   const trendingHoverButton = useColorModeValue(
     "#919191",
     "rgb(173,173,173,0.25)"
@@ -97,10 +97,10 @@ const IndexPage = () => {
             // ml="1%"
             _hover={{ bg: trendingHoverButton }}
             onClick={() => setTrendingCoins(true)}
-            fontSize={[0, "sm", "md", "lg", "xl", "2xl"]}
+            fontSize={[0, "sm", "md", "lg", "2xl", "3xl"]}
             h={["0px", "30px", "50px", "50px", "50px"]}
             bg={trendingButton}
-            width={["100%", "50%", "40%", "35%", "30%", "30%"]}
+            width={["100%", "50%", "40%", "35%", "35%", "35%"]}
           >
             Top 50 Trending Coins on Twitter!
           </Button>
