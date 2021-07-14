@@ -38,15 +38,15 @@ export default function BasicUsage({ Curcoin }) {
   function fillTable(coinData, category) {
     if (category == "SOCIAL DOMINANCE:")
       return (
-        <Tr>
+        <Tr fontSize="125%">
           <Td>{category}</Td>
           <Td isNumeric>{`${
             coinData < 0.01 ? "<0.00001" : coinData.toFixed(2)
-          }`}</Td>
+          }%`}</Td>
         </Tr>
       );
     return (
-      <Tr>
+      <Tr fontSize="125%">
         <Td>{category}</Td>
         <Td isNumeric>{coinData}</Td>
       </Tr>
@@ -100,7 +100,7 @@ export default function BasicUsage({ Curcoin }) {
             <div>
               <AdvancedChart
                 widgetProps={{
-                  width: "100%",
+                  width: "auto",
                   height: 610,
                   symbol: `${Curcoin.s}USD`,
                   interval: "D",
@@ -114,19 +114,46 @@ export default function BasicUsage({ Curcoin }) {
                 }}
               />
             </div>
-            {/* FIXME:FIXME:FIXME:FIXME:FIXME: */}
-            <Table variant="simple">
-              {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
 
+            <Table variant="simple">
               {fillTable(Curcoin.t, "TWEETS IN PAST 24 HOURS:")}
               {fillTable(Curcoin.r, "REDDIT ACTIVITY IN PAST 24 HOURS:")}
               {fillTable(Curcoin.sd, "SOCIAL DOMINANCE:")}
               {fillTable(Curcoin.bl, "BULLISH POSTS:")}
               {fillTable(Curcoin.br, "BEARISH POSTS:")}
+              <Tr>
+                <Td fontSize="125%">BEARISH - BULLISH SPECTRUM</Td>
+                <Td>
+                  <Slider
+                    aria-label="slider-ex-2"
+                    colorScheme="pink"
+                    defaultValue={+(Curcoin.as * 20).toFixed(2)}
+                    w="100%"
+                    size="md"
+                    textAlign="center"
+                    fontSize="175%"
+                    color={
+                      +(Curcoin.as * 20).toFixed(2) < 50 ? "red" : "#55B222"
+                    }
+                    isDisabled={true}
+                  >
+                    <Text mb="15%" float="right">{`${(
+                      Curcoin.as * 20
+                    ).toFixed()}%`}</Text>
+                    <SliderTrack>
+                      <SliderFilledTrack
+                        bg={
+                          +(Curcoin.as * 20).toFixed(2) < 50 ? "red" : "#55B222"
+                        }
+                      />
+                    </SliderTrack>
+                  </Slider>
+                  {/* FIXME: */}
+                </Td>
+              </Tr>
             </Table>
-            {/* FIXME:FIXME:FIXME:FIXME: */}
-            <SimpleGrid columns={1} spacing={2.5}>
-              <Flex justifyContent="space-between" height="80px">
+
+            {/* <Flex justifyContent="space-between" height="80px">
                 <Text fontSize="200%">BEARISH - BULLISH SPECTRUM</Text>
 
                 <Slider
@@ -149,7 +176,7 @@ export default function BasicUsage({ Curcoin }) {
                   </SliderTrack>
                 </Slider>
               </Flex>
-            </SimpleGrid>
+            </SimpleGrid> */}
           </ModalBody>
 
           <ModalFooter>
