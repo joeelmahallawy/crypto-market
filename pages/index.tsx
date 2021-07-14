@@ -55,9 +55,6 @@ const IndexPage = () => {
   useEffect(() => {
     doFetch();
   }, []);
-  // setInterval(() => {
-  //   doFetch();
-  // }, 2000);
 
   function sortByTrend(arr) {
     const containerArr = [...arr];
@@ -81,13 +78,7 @@ const IndexPage = () => {
         <Flex id="Options" w="85%" m="1% auto" justifyContent="space-between">
           <Heading
             color={logoColor}
-            // pr="56%"
-            // fontSize="300%"
-
             fontSize={["15px", "22.5px", "30px", "40px", "50px"]}
-            // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:HOW TO DESIGN WITH RESPONSIVE STYLINGFIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-            // IMPLEMENT WHERE NEEDED
-
             onClick={() => setTrendingCoins(false)}
           >
             <Flex _hover={{ cursor: "pointer" }}>
