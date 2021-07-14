@@ -24,13 +24,17 @@ export default function categoryStyling(exp, key, page) {
     case "Name":
       return (
         <Td key={key}>
-          <Text ml="0%">{exp.value}</Text>
+          <Text ml="0%" fontWeight="500" fontSize="105%">
+            {exp.value}
+          </Text>
         </Td>
       );
     case "Coin":
       return (
         <Td key={key}>
-          <Text color="gray">{exp.value}</Text>
+          <Text color="gray" fontWeight="500">
+            {exp.value}
+          </Text>
         </Td>
       );
     case "Price":

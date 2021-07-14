@@ -25,9 +25,11 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import dynamic from "next/dynamic";
+import getPrice from "../helpers/pricePrecision";
 
 const AdvancedChart = dynamic(
   () => import("react-tradingview-embed/dist/components/AdvancedChart"),
@@ -35,6 +37,8 @@ const AdvancedChart = dynamic(
 );
 
 export default function BasicUsage({ Curcoin }) {
+  const modalButton = useColorModeValue("#C9C9C9", "gray");
+
   function fillTable(coinData, category) {
     if (category == "SOCIAL DOMINANCE:")
       return (
@@ -60,7 +64,8 @@ export default function BasicUsage({ Curcoin }) {
         onClick={onOpen}
         _focus={{ outline: "none" }}
         _hover={{ bg: "lightgray" }}
-        bg="#EAEAEA"
+        // bg="#EAEAEA"
+        bg={modalButton}
       >
         SOCIAL MEDIA STATUS
       </Button>
@@ -75,27 +80,27 @@ export default function BasicUsage({ Curcoin }) {
             _hover={{ bg: "#8D8D8D" }}
           />
           <ModalBody>
-            <Flex mt="3%" ml="20%" justifyContent="space-evenly" w="100%">
-              <Box>
+            <Flex mt="3%" gridGap="10%" w="100%">
+              <Box ml="30%">
                 <Heading textAlign="center" fontSize="300%" mr="-75%">
                   {Curcoin.n}
                 </Heading>
               </Box>
-              <Center flexDir="column" pb="2.5%" pl="5%">
+              <Box flexDir="column" pb="2.5%" pl="5%" float="right">
                 <Heading
                   fontSize="120%"
                   pb="5%"
-                  color="gray"
                   fontWeight="400"
                   fontFamily="sans-serif"
+                  textAlign="right"
                 >
                   {`${Curcoin.n} Price`}
                   {` (${Curcoin.s})`}
                 </Heading>
-                <Heading textAlign="center" fontSize="120%" right="0px" pb="5%">
-                  {`$${Curcoin.p.toFixed(2)}`}
+                <Heading textAlign="right" fontSize="120%" right="0px" pb="5%">
+                  {`${getPrice(Curcoin.p)}`}
                 </Heading>
-              </Center>
+              </Box>
             </Flex>
             <div>
               <AdvancedChart
@@ -148,7 +153,6 @@ export default function BasicUsage({ Curcoin }) {
                       />
                     </SliderTrack>
                   </Slider>
-                  {/* FIXME: */}
                 </Td>
               </Tr>
             </Table>

@@ -10,6 +10,7 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -18,6 +19,7 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useTable, useSortBy, usePagination, useFilters } from "react-table";
 import React, { useState } from "react";
@@ -65,9 +67,10 @@ export default function RenderCoin({
   arr = [],
   pageNumber = 1,
   searchQuery = "",
+  state = false,
 }) {
+  const hoverOnCoin = useColorModeValue("#F3F3F3", "rgb(6,24,64,0.75)");
   const [pageNum, setPageNum] = useState(pageNumber);
-  const [searchResultsArr, setSearchResultsArr] = useState(arr);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<{}>(
       {
@@ -96,7 +99,7 @@ export default function RenderCoin({
       <Table
         {...getTableProps()}
         style={{ tableLayout: "fixed" }}
-        // variant="striped"
+        variant="striped"
       >
         <Thead>
           {headerGroups.map((headerGroup) => (
@@ -156,7 +159,8 @@ export default function RenderCoin({
                 height="20"
                 {...row.getRowProps()}
                 key={i}
-                _hover={{ bg: "#F3F3F3" }}
+                // _hover={{ bg: "#F3F3F3" }}
+                _hover={{ bg: hoverOnCoin }}
               >
                 {row.cells.map((cell, i) => {
                   return categoryStyling(cell, i, pageNum);
@@ -173,7 +177,7 @@ export default function RenderCoin({
           borderRadius="50%"
           w="60px"
           h="60px"
-          ml="45%"
+          ml="40%"
           fontSize="200%"
           onClick={() => setPageNum(pageNum - 1)}
           disabled={pageNum === 1}
@@ -201,7 +205,7 @@ export default function RenderCoin({
         >
           {"+"}
         </Button>{" "}
-        <Heading fontSize="100%" ml="20%">
+        <Heading fontSize="100%" ml="25%">
           {" "}
           Go to page:
         </Heading>
