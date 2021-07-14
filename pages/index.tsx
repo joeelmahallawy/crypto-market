@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Center,
+  extendTheme,
   Flex,
   Heading,
   Input,
@@ -15,6 +16,16 @@ import { SiBitcoin, SiLitecoin } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
 import RenderCoin from "../components/RenderCoins";
 import { useAsyncFn } from "react-use";
+import { createBreakpoints } from "@chakra-ui/theme-tools";
+
+const breakpoints = createBreakpoints({
+  sm: "600px",
+  md: "1000px",
+  lg: "1500px",
+  xl: "2000px",
+  "2xl": "2300px",
+});
+const theme = extendTheme({ breakpoints });
 
 const API_KEY = `3vxjsomnzbsd5idi6ee5nl`;
 const API_FOR_DESCENDING_VOLUME_MARKET = `https://api.lunarcrush.com/v2?data=market&key=3vxjsomnzbsd5idi6ee5nl&sort=mc&desc=true`;
@@ -44,6 +55,9 @@ const IndexPage = () => {
   useEffect(() => {
     doFetch();
   }, []);
+  // setInterval(() => {
+  //   doFetch();
+  // }, 2000);
 
   function sortByTrend(arr) {
     const containerArr = [...arr];
@@ -64,29 +78,53 @@ const IndexPage = () => {
   return (
     <>
       <Box id="header">
-        <Flex id="Options" w="70%" m="1% auto" justifyContent="flex-end">
+        <Flex id="Options" w="85%" m="1% auto" justifyContent="space-between">
           <Heading
             color={logoColor}
-            mr="56%"
-            fontSize="300%"
+            // pr="56%"
+            // fontSize="300%"
+
+            fontSize={["15px", "22.5px", "30px", "40px", "50px"]}
+            // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:HOW TO DESIGN WITH RESPONSIVE STYLINGFIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+            // IMPLEMENT WHERE NEEDED
+
             onClick={() => setTrendingCoins(false)}
           >
             <Flex _hover={{ cursor: "pointer" }}>
               𝙆
-              <Box pt="4%" pl="1%">
-                <SiBitcoin color="red" size="35px" />
+              <Box pt="4.5%" pl="1%">
+                <SiBitcoin
+                  color="gold"
+                  // size="35px"
+                  fontSize="80%"
+                />
               </Box>
               𝙞𝙣𝙢𝙖𝙧𝙠𝙚𝙩𝙆𝙖𝙥
             </Flex>
           </Heading>
           <Button
-            ml="1%"
+            // ml="1%"
             _hover={{ bg: trendingHoverButton }}
             onClick={() => setTrendingCoins(true)}
-            fontSize="200%"
-            h="50px"
-            w="auto"
-            bg={trendingButton}
+            // fontSize="175%"
+            // fontStyle={{
+            //   base: "150px",
+            //   sm: "125px",
+            //   md: "100px",
+            //   lg: "80px",
+            //   xl: "60px",
+            // }}
+            fontSize={[0, "sm", "md", "lg", "xl", "2xl"]}
+            // h="50px"
+            h={["0px", "30px", "50px", "50px", "50px"]}
+            // FIXME:FIXME:
+
+            // bg={trendingButton}
+            // bg="red"
+            bg={["red", "blue", "green", "orange", "purple", "gray"]}
+            width={["100%", "50%", "40%", "35%", "30%", "30%"]}
+
+            // width={['0%',"100%"]}
           >
             Top 50 Trending Coins on Twitter!
           </Button>
@@ -94,19 +132,23 @@ const IndexPage = () => {
         <Flex
           id="categories"
           bg={headerBackground}
-          w="70%"
+          // bg="red"
+          w="85%"
           m="1% auto"
           alignItems="center"
           borderRadius="10px"
           // height="60px"
+          minHeight="30%"
         >
           <SiBitcoin
             style={{ cursor: "pointer" }}
-            size="5%"
+            size="6%"
+            // fontSize="90px"
             color="gold"
             onClick={() => setTrendingCoins(false)}
           />
           <Button
+            fontSize={["0px", "10px", "12px", "14px", "16px"]}
             bg="transparent"
             fontWeight="bold"
             _hover={{ bg: hoverBackgroundButtons, color: hoverButtons }}
@@ -117,6 +159,7 @@ const IndexPage = () => {
             Home
           </Button>
           <Button
+            fontSize={["0px", "10px", "12px", "14px", "16px"]}
             bg="transparent"
             fontWeight="bold"
             _hover={{ bg: hoverBackgroundButtons, color: hoverButtons }}
@@ -126,6 +169,7 @@ const IndexPage = () => {
             DummyBtn
           </Button>
           <Button
+            fontSize={["0px", "10px", "12px", "14px", "16px"]}
             bg="transparent"
             fontWeight="bold"
             _hover={{ bg: hoverBackgroundButtons, color: hoverButtons }}
@@ -137,6 +181,7 @@ const IndexPage = () => {
           <Button
             bg="transparent"
             fontWeight="bold"
+            fontSize={["0px", "10px", "12px", "14px", "16px"]}
             _hover={{ bg: hoverBackgroundButtons, color: hoverButtons }}
             _focus={{ outline: "none" }}
             _active={{ bg: "none" }}
@@ -158,7 +203,7 @@ const IndexPage = () => {
           />
         </Flex>
       </Box>
-      <Box id="body" w="70%" m="0 auto">
+      <Box id="body" w="85%" m="0 auto">
         {/* {console.log(
           state.value.sort((a, b) => {
             return b.t - a.t;

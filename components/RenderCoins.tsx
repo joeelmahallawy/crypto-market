@@ -83,9 +83,12 @@ export default function RenderCoin({
   function iconsForSorts(col) {
     return col.isSorted ? (
       col.isSortedDesc ? (
-        <TiArrowSortedUp color="lightgreen" />
+        // <TiArrowSortedUp color="lightgreen" />
+        // @ts-ignore
+
+        <TiArrowSortedUp color="green" size="20px" />
       ) : (
-        <TiArrowSortedDown color="red" />
+        <TiArrowSortedDown color="red" size="20px" />
       )
     ) : null;
   }
@@ -96,87 +99,84 @@ export default function RenderCoin({
 
   return (
     <>
-      <Table
-        {...getTableProps()}
-        style={{ tableLayout: "fixed" }}
-        variant="striped"
-      >
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr height="20" {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, i) => {
-                // @ts-expect-error
-                column.sortType = "basic";
-                return (
-                  <Th
-                    key={i}
-                    {...(pageNum === 1
-                      ? {
-                          ...column.getHeaderProps(
-                            // @ts-expect-error
-                            column.getSortByToggleProps()
-                          ),
-                        }
-                      : { ...column.getHeaderProps })}
-                    width={
-                      column.Header === `#`
-                        ? "1.5%"
-                        : column.Header === "Coin"
-                        ? "7.5%"
-                        : column.Header === "Name"
-                        ? "3%"
-                        : column.Header === "Social Media Status"
-                        ? "3.9%"
-                        : "60px"
-                    }
-                    textAlign={
-                      column.Header != `#` &&
-                      column.Header != `Coin` &&
-                      column.Header != `Name`
-                        ? "right"
-                        : "left"
-                    }
-                    fontSize="100%"
-                    fontWeight="bold"
-                    fontFamily="sans-serif"
-                  >
-                    {column.render("Header")}
-
-                    {iconsForSorts(column)}
-                  </Th>
-                );
-              })}
-            </Tr>
-          ))}
-        </Thead>
-
-        <Tbody {...getTableBodyProps()}>
-          {firstPageRows.map((row, i) => {
-            prepareRow(row);
-
-            return (
-              <Tr
-                height="20"
-                {...row.getRowProps()}
-                key={i}
-                // _hover={{ bg: "#F3F3F3" }}
-                _hover={{ bg: hoverOnCoin }}
-              >
-                {row.cells.map((cell, i) => {
-                  return categoryStyling(cell, i, pageNum);
+      <Box overflowX="auto">
+        <Table
+          {...getTableProps()}
+          style={{ tableLayout: "auto" }}
+          variant="striped"
+          width="100%"
+        >
+          <Thead>
+            {headerGroups.map((headerGroup) => (
+              <Tr height="20" {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column, i) => {
+                  // @ts-expect-error
+                  column.sortType = "basic";
+                  return (
+                    <Th
+                      key={i}
+                      {...(pageNum === 1
+                        ? {
+                            ...column.getHeaderProps(
+                              // @ts-expect-error
+                              column.getSortByToggleProps()
+                            ),
+                          }
+                        : { ...column.getHeaderProps })}
+                      minWidth={column.Header === "24H Change" && "160px"}
+                      textAlign={
+                        column.Header != `#` &&
+                        column.Header != `Coin` &&
+                        column.Header != `Name`
+                          ? "right"
+                          : "left"
+                      }
+                      fontSize="100%"
+                      fontWeight="bold"
+                      fontFamily="sans-serif"
+                      // pos="absolute"
+                      // bg="green"
+                    >
+                      {column.render("Header")}
+                      {iconsForSorts(column)}
+                    </Th>
+                  );
                 })}
               </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
+            ))}
+          </Thead>
+
+          <Tbody {...getTableBodyProps()}>
+            {firstPageRows.map((row, i) => {
+              prepareRow(row);
+
+              return (
+                <Tr
+                  height="20"
+                  {...row.getRowProps()}
+                  key={i}
+                  // _hover={{ bg: "#F3F3F3" }}
+                  _hover={{ bg: hoverOnCoin }}
+                  // bg="red"
+                  // overflowX="scroll"
+                  width="100%"
+                >
+                  {row.cells.map((cell, i) => {
+                    return categoryStyling(cell, i, pageNum);
+                  })}
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </Box>
       <br />
       <Center style={{ marginBottom: "2.5%", marginTop: "2.5%" }}>
         {/* Showing the first 50 results of {rows.length} rows */}
         <Button
           borderRadius="50%"
-          w="60px"
-          h="60px"
+          w={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
+          h={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
           ml="40%"
           fontSize="200%"
           onClick={() => setPageNum(pageNum - 1)}
@@ -184,7 +184,7 @@ export default function RenderCoin({
         >
           {"-"}
         </Button>{" "}
-        <Text m="0 1%" fontSize="125%">
+        <Text m="0 1%" fontSize="125%" minWidth="115px">
           {`Page ${+pageNum} of ${
             searchQuery
               ? Math.ceil(renderSearch(rows, searchQuery).length / 50)
@@ -193,8 +193,9 @@ export default function RenderCoin({
         </Text>
         <Button
           borderRadius="50%"
-          w="60px"
-          h="60px"
+          // w="5vh"
+          w={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
+          h={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
           fontSize="200%"
           onClick={() => setPageNum(pageNum + 1)}
           disabled={
@@ -205,13 +206,13 @@ export default function RenderCoin({
         >
           {"+"}
         </Button>{" "}
-        <Heading fontSize="100%" ml="25%">
+        <Heading fontSize="100%" pl="25%">
           {" "}
           Go to page:
         </Heading>
         <NumberInput
-          w="15%"
-          ml="1%"
+          // w="15%"
+          pl="1%"
           min={1}
           max={Math.ceil(rows.length)}
           placeholder="Enter page number"

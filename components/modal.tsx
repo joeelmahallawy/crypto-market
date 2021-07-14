@@ -30,6 +30,7 @@ import {
 import React from "react";
 import dynamic from "next/dynamic";
 import getPrice from "../helpers/pricePrecision";
+import fillTable from "../helpers/fillTable";
 
 const AdvancedChart = dynamic(
   () => import("react-tradingview-embed/dist/components/AdvancedChart"),
@@ -38,24 +39,8 @@ const AdvancedChart = dynamic(
 
 export default function BasicUsage({ Curcoin }) {
   const modalButton = useColorModeValue("#C9C9C9", "gray");
+  const modalHoverButton = useColorModeValue("lightgray", "gray.500");
 
-  function fillTable(coinData, category) {
-    if (category == "SOCIAL DOMINANCE:")
-      return (
-        <Tr fontSize="125%">
-          <Td>{category}</Td>
-          <Td isNumeric>{`${
-            coinData < 0.01 ? "<0.00001" : coinData.toFixed(2)
-          }%`}</Td>
-        </Tr>
-      );
-    return (
-      <Tr fontSize="125%">
-        <Td>{category}</Td>
-        <Td isNumeric>{coinData}</Td>
-      </Tr>
-    );
-  }
   Curcoin = Curcoin.row.original;
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -63,7 +48,7 @@ export default function BasicUsage({ Curcoin }) {
       <Button
         onClick={onOpen}
         _focus={{ outline: "none" }}
-        _hover={{ bg: "lightgray" }}
+        _hover={{ bg: modalHoverButton }}
         // bg="#EAEAEA"
         bg={modalButton}
       >
@@ -73,16 +58,15 @@ export default function BasicUsage({ Curcoin }) {
       <Modal isOpen={isOpen} onClose={onClose} size="6xl">
         <ModalOverlay />
         <ModalContent>
-          {/* <ModalHeader>{Curcoin.n}</ModalHeader> */}
           <ModalCloseButton
             _focus={{ outline: "none" }}
             size="lg"
             _hover={{ bg: "#8D8D8D" }}
           />
           <ModalBody>
-            <Flex mt="3%" gridGap="10%" w="100%">
+            <Flex mt="1.5%" gridGap="10%" w="100%">
               <Box ml="30%">
-                <Heading textAlign="center" fontSize="300%" mr="-75%">
+                <Heading textAlign="center" fontSize="250%" mr="-75%">
                   {Curcoin.n}
                 </Heading>
               </Box>
@@ -156,31 +140,6 @@ export default function BasicUsage({ Curcoin }) {
                 </Td>
               </Tr>
             </Table>
-
-            {/* <Flex justifyContent="space-between" height="80px">
-                <Text fontSize="200%">BEARISH - BULLISH SPECTRUM</Text>
-
-                <Slider
-                  aria-label="slider-ex-2"
-                  colorScheme="pink"
-                  defaultValue={+(Curcoin.as * 20).toFixed(2)}
-                  w="25%"
-                  size="md"
-                  textAlign="center"
-                  fontSize="175%"
-                  color={+(Curcoin.as * 20).toFixed(2) < 50 ? "red" : "#55B222"}
-                >
-                  {`${(Curcoin.as * 20).toFixed()}%`}
-                  <SliderTrack>
-                    <SliderFilledTrack
-                      bg={
-                        +(Curcoin.as * 20).toFixed(2) < 50 ? "red" : "#55B222"
-                      }
-                    />
-                  </SliderTrack>
-                </Slider>
-              </Flex>
-            </SimpleGrid> */}
           </ModalBody>
 
           <ModalFooter>

@@ -1,4 +1,4 @@
-import { Td, Button, Text } from "@chakra-ui/react";
+import { Td, Button, Text, Flex } from "@chakra-ui/react";
 import React from "react";
 import numberWithCommas from "./numbersWithCommas";
 import getPrice from "./pricePrecision";
@@ -17,21 +17,29 @@ export default function categoryStyling(exp, key, page) {
   switch (exp.column.Header) {
     case "#":
       return (
-        <Td width="100%" key={key}>
+        <Td key={key}>
           <Text>{+exp.row.id + 1}</Text>
         </Td>
       );
     case "Name":
       return (
         <Td key={key}>
-          <Text ml="0%" fontWeight="500" fontSize="105%">
+          <Text
+            // ml="0%"
+            fontWeight="500"
+            // w="20px"
+
+            fontSize="105%"
+            // width={["100%", "85%", "70%", "55%", "35%", "300%"]}
+            // fontSize={[0, "sm", "sm", "md", "md", "md"]}
+          >
             {exp.value}
           </Text>
         </Td>
       );
     case "Coin":
       return (
-        <Td key={key}>
+        <Td key={key} w="100px">
           <Text color="gray" fontWeight="500">
             {exp.value}
           </Text>
@@ -54,7 +62,9 @@ export default function categoryStyling(exp, key, page) {
         <Td key={key}>
           <Text
             color={exp.value >= 0 ? "rgb(22,199,132)" : "rgb(235,64,74)"}
-            textAlign="right"
+            textAlign="center"
+
+            // fontSize="100%"
           >
             {`${exp.value.toFixed(2)}%`}
           </Text>
@@ -62,7 +72,7 @@ export default function categoryStyling(exp, key, page) {
       );
     case "24H Volume":
       return (
-        <Td key={key}>
+        <Td key={key} w="5%">
           <Text textAlign="right">{`${
             exp.value ? "$" + numberWithCommas(exp.value.toFixed(0)) : "?"
           }`}</Text>
@@ -86,7 +96,7 @@ export default function categoryStyling(exp, key, page) {
       );
     case "Social Media Status":
       return (
-        <Td key={key}>
+        <Td key={key} w="5%">
           <MyModal Curcoin={exp} />
         </Td>
       );
