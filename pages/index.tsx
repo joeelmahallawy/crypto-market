@@ -106,25 +106,10 @@ const IndexPage = () => {
             // ml="1%"
             _hover={{ bg: trendingHoverButton }}
             onClick={() => setTrendingCoins(true)}
-            // fontSize="175%"
-            // fontStyle={{
-            //   base: "150px",
-            //   sm: "125px",
-            //   md: "100px",
-            //   lg: "80px",
-            //   xl: "60px",
-            // }}
             fontSize={[0, "sm", "md", "lg", "xl", "2xl"]}
-            // h="50px"
             h={["0px", "30px", "50px", "50px", "50px"]}
-            // FIXME:FIXME:
-
-            // bg={trendingButton}
-            // bg="red"
-            bg={["red", "blue", "green", "orange", "purple", "gray"]}
+            bg={trendingButton}
             width={["100%", "50%", "40%", "35%", "30%", "30%"]}
-
-            // width={['0%',"100%"]}
           >
             Top 50 Trending Coins on Twitter!
           </Button>
@@ -137,13 +122,11 @@ const IndexPage = () => {
           m="1% auto"
           alignItems="center"
           borderRadius="10px"
-          // height="60px"
           minHeight="30%"
         >
           <SiBitcoin
             style={{ cursor: "pointer" }}
             size="6%"
-            // fontSize="90px"
             color="gold"
             onClick={() => setTrendingCoins(false)}
           />
@@ -204,11 +187,6 @@ const IndexPage = () => {
         </Flex>
       </Box>
       <Box id="body" w="85%" m="0 auto">
-        {/* {console.log(
-          state.value.sort((a, b) => {
-            return b.t - a.t;
-          })
-        )} */}
         {isLoaded ? (
           <>
             <RenderCoin

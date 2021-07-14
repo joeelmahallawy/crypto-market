@@ -24,15 +24,7 @@ export default function categoryStyling(exp, key, page) {
     case "Name":
       return (
         <Td key={key}>
-          <Text
-            // ml="0%"
-            fontWeight="500"
-            // w="20px"
-
-            fontSize="105%"
-            // width={["100%", "85%", "70%", "55%", "35%", "300%"]}
-            // fontSize={[0, "sm", "sm", "md", "md", "md"]}
-          >
+          <Text fontWeight="500" fontSize="105%">
             {exp.value}
           </Text>
         </Td>
@@ -63,8 +55,6 @@ export default function categoryStyling(exp, key, page) {
           <Text
             color={exp.value >= 0 ? "rgb(22,199,132)" : "rgb(235,64,74)"}
             textAlign="center"
-
-            // fontSize="100%"
           >
             {`${exp.value.toFixed(2)}%`}
           </Text>

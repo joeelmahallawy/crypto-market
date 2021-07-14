@@ -83,9 +83,6 @@ export default function RenderCoin({
   function iconsForSorts(col) {
     return col.isSorted ? (
       col.isSortedDesc ? (
-        // <TiArrowSortedUp color="lightgreen" />
-        // @ts-ignore
-
         <TiArrowSortedUp color="green" size="20px" />
       ) : (
         <TiArrowSortedDown color="red" size="20px" />
@@ -172,7 +169,6 @@ export default function RenderCoin({
       </Box>
       <br />
       <Center style={{ marginBottom: "2.5%", marginTop: "2.5%" }}>
-        {/* Showing the first 50 results of {rows.length} rows */}
         <Button
           borderRadius="50%"
           w={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
@@ -193,7 +189,6 @@ export default function RenderCoin({
         </Text>
         <Button
           borderRadius="50%"
-          // w="5vh"
           w={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
           h={["5vh", "3.5vh", "5vh", "5vh", "5vh", "5vh"]}
           fontSize="200%"
@@ -211,7 +206,6 @@ export default function RenderCoin({
           Go to page:
         </Heading>
         <NumberInput
-          // w="15%"
           pl="1%"
           min={1}
           max={Math.ceil(rows.length)}
